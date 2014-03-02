@@ -221,14 +221,22 @@ function buyerGetIndexHouseValues()
 		{
 			buyerGetRentValues_waiting = true;
 			sendServerRequest('api/buyer/result?scgCode5=' + buyerGetCities_scgCode5 + '&scgCode7=' + buyerGetCities_scgCode7 + '&price=' + buyerGetCities_price + '&yearOfPurchase=' + buyerGetCities_yearOfPurchase, function(responseText){
-				renterGetRentValues_waiting = false;
+				buyerGetRentValues_waiting = false;
 				var indexHousePriceResponse = JSON.parse(responseText);
 				if ((typeof indexHousePriceResponse !== 'undefined') && (indexHousePriceResponse !== null))
 				{
+					var placesStr = '<h1><b>' + indexHousePriceResponse.message + '</b></h1>';
+					placesStr += '<br />';
+					placesStr += '<b>Location:</b> ' + indexHousePriceResponse.locationName;
+					placesStr += '<br />';
+					placesStr += '<b>Adjusted Price:</b> ' + indexHousePriceResponse.adjustedPrice;
+					placesStr += '<br />';
+					placesStr += '<b>Average Yearly Index:</b> ' + indexHousePriceResponse.avgYearlyIndex;
+					placesStr += '<br />';
 					var buyerRentalRatesDiv = document.getElementById('buyerRentalRatesDiv');
 					if ((typeof buyerRentalRatesDiv !== 'undefined') && (buyerRentalRatesDiv !== null))
 					{
-						buyerRentalRatesDiv.innerHTML = JSON.stringify(indexHousePriceResponse);
+						buyerRentalRatesDiv.innerHTML = placesStr;
 					}
 				}
 			});
