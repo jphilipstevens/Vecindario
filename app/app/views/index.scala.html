@@ -1,0 +1,367 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vecindario App</title>
+    <link rel="stylesheet" href="assets/css/foundation.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/custom.css">
+    <script src="assets/js/vendor/modernizr.js"></script>
+    <script src="assets/js/vendor/jquery.js"></script>
+    <script src="assets/js/foundation.min.js"></script>
+    <script src="assets/js/foundation/foundation.joyride.js"></script>
+  	<script src="assets/js/vendor/jquery.cookie.js"></script>
+	<script src="assets/js/serverComm.js"></script>
+    <script>
+	
+		$(document).ready(function(){
+		$("#investors").show();
+		$("#buyers").hide();
+		$("#renters").hide();
+
+			});
+	
+			function showInvestor(){
+				$("#investors").show();
+				$("#buyers").hide();
+				$("#renters").hide();
+				}
+			function showBuyer(){
+				$("#investors").hide();
+				$("#buyers").show();
+				$("#renters").hide();
+				}
+			function showRenter(){
+				$("#investors").hide();
+				$("#buyers").hide();
+				$("#renters").show();
+				}
+			
+			function formInvestorSend(){
+				document.formInvestor.action="/api/investor/result";
+				}
+			function formBuyerSend(){
+				document.formBuyer.action="/api/buyer/result";
+				}
+			function formRenterSend(){
+				document.formRenter.action="/api/renter/result";
+				}
+	
+
+    </script>
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'> 
+  </head>
+  <body>
+  <!-- New Part -->
+  
+   <!-- Navigation -->
+ 
+  <nav class="top-bar" data-topbar>
+    <ul class="title-area">
+      <!-- Title Area -->
+      <li class="name">
+        <h1>
+          <a href="#">
+           <!-- <img src="img/logo.jpg" />--> </li>
+          </a>
+        </h1>
+      
+      <li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
+    </ul>
+ 
+    <section class="top-bar-section">
+      <!-- Right Nav Section -->
+      <ul class="right" id="thirdStop">
+      <li><a href="#">About</a></li>
+      <li class="has-dropdown">
+        <a href="#">Search Category</a>
+        <ul class="dropdown">
+          <li><a onClick="showInvestor()">Investors</a></li>
+          <li><a onClick="showBuyer()">Buyers</a></li>
+          <li><a onClick="showRenter()">Renters</a></li>
+        </ul>
+      </li>
+	<!--End Right Nav section -->
+      </ul>
+    </section>
+  </nav>
+ 
+  <!-- End Top Bar -->
+   
+<header id="firstStop">
+  <div class="row">
+    <div class="large-12 columns">
+    
+     <div class="row">
+        <div class="large-6 columns">
+            
+          </div>
+        </div>
+ 
+        <div class="large-6 columns right">
+       <!--<div class="panel">
+            <h1>Welcome</h1>
+            <p>The most advanced app for real estate investors</p>
+</div>-->
+   
+        </div>
+    </div>
+  </div>
+</header>
+
+
+
+  <!--Off Canvas navigation -->
+
+<div class="off-canvas-wrap" id="secondStop">
+  <div class="inner-wrap">
+    <nav class="tab-bar">
+      <section class="left-small">
+        <a class="left-off-canvas-toggle menu-icon" ><span></span></a>
+      </section>
+
+      <section class="middle tab-bar-section">
+        <h1 class="title">Search Category</h1>
+      </section>
+
+      
+    </nav>
+
+    <aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+        <li><label>Sub Menu</label></li>
+          <li><a onClick="showInvestor()">Investors</a></li>
+          <li><a onClick="showBuyer()">Buyers</a></li>
+          <li><a onClick="showRenter()">Renters</a></li>
+
+      </ul>
+    </aside>
+
+   <section class="main-section">
+   
+   <!--Investor form-->
+ <div id="investors">
+ <div class="row">
+      <div class="large-12 columns">
+       <h2>Investors</h2>
+      </div>
+    </div>
+         <form name="formInvestor" method="get">
+  <div class="row">
+    <div class="large-12 columns">
+      <label>Location
+        <input type="text" placeholder="Location" name="locationName" id="locationName"  required/>
+      </label>
+    </div>
+  </div>
+  
+  <!--<div class="row">
+    <div class="large-12 columns">
+      <label>Quantity (between 1 and 5)
+         <input type="range" name="quantity" min="1" max="5">
+      </label>
+    </div>
+  </div>
+  <br/>-->
+  
+  <div class="row">
+    <div class="large-6 columns">
+      <label>Year of Purchase
+        <select name="yearOfPurchase" id="yearOfPurchase" required>
+          <option value="1981">1981</option>
+          <option value="1982">1982</option>
+          <option value="1983">1983</option>
+          <option value="1984">1984</option>
+          <option value="2007">2007</option>
+        </select>
+      </label>
+    </div>
+    <div class="large-6 columns">
+      <label>House Price
+        <input type="text" placeholder="House Price" name="housePrice" id="housePrice" required />
+      </label>
+    </div>
+    <!--<div class="large-4 columns">
+      <div class="row collapse">
+        <label>Input Label</label>
+        <div class="small-9 columns">
+          <input type="text" placeholder="small-9.columns" />
+        </div>
+        <div class="small-3 columns">
+          <span class="postfix">.com</span>
+        </div>
+      </div>
+    </div>-->
+
+    <input type="submit" class="radius button" value="Submit" onClick="formInvestorSend()">
+
+  </div>
+  <!--<div class="row">
+    <div class="large-12 columns">
+      <label>Select Box
+        <select>
+          <option value="husker">Husker</option>
+          <option value="starbuck">Starbuck</option>
+          <option value="hotdog">Hot Dog</option>
+          <option value="apollo">Apollo</option>
+        </select>
+      </label>
+    </div>
+  </div>-->
+  <!--<div class="row">
+    <div class="large-6 columns">
+      <label>Choose Your Favorite</label>
+      <input type="radio" name="pokemon" value="Red" id="pokemonRed"><label for="pokemonRed">Red</label>
+      <input type="radio" name="pokemon" value="Blue" id="pokemonBlue"><label for="pokemonBlue">Blue</label>
+    </div>
+    <div class="large-6 columns">
+      <label>Check these out</label>
+      <input id="checkbox1" type="checkbox"><label for="checkbox1">Checkbox 1</label>
+      <input id="checkbox2" type="checkbox"><label for="checkbox2">Checkbox 2</label>
+    </div>
+  </div>-->
+  <!--<div class="row">
+    <div class="large-12 columns">
+      <label>Textarea Label
+        <textarea placeholder="small-12.columns"></textarea>
+      </label>
+    </div>
+  </div>-->
+  
+</form>
+
+<!--Investor form ends-->
+</div>
+       <!--Buyer form-->
+ <div id="buyers">
+ <div class="row">
+      <div class="large-12 columns">
+       <h2>Buyers</h2>
+      </div>
+    </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <label>Location
+        <input type="text" placeholder="Location" name="buyerLocationName" id="buyerLocationName" onKeyUp="buyerGetCities_onkeyUp();" required/>
+      </label>
+    </div>
+  </div>
+  
+  <!--<div class="row">
+    <div class="large-12 columns">
+      <label>Quantity (between 1 and 5)
+         <input type="range" name="quantity" min="1" max="5">
+      </label>
+    </div>
+  </div>
+  <br/>-->
+  
+  <div class="row">
+    <div class="large-6 columns">
+      <label>Year of Purchase
+        <select name="yearOfPurchase" id="yearOfPurchase" onchange="buyerSetYear();" required>
+          <option value="1981">1981</option>
+          <option value="1982">1982</option>
+          <option value="1983">1983</option>
+          <option value="1984">1984</option>
+          <option value="2007" selected="selected">2007</option>
+        </select>
+      </label>
+    </div>
+    <div class="large-6 columns">
+      <label>House Price
+        <input type="text" placeholder="House Price" name="buyerHousePrice" id="buyerHousePrice" onKeyUp="buyerSetPrice();" required/>
+      </label>
+    </div>
+
+    <button class="radius button" onClick="buyerGetIndexHouseValues()">Submit</button>
+    <div id="buyerRentalRatesDiv"></div>
+  </div>
+
+<!--Buyer form ends--></div>
+
+<!--Renter form-->
+ <div id="renters">
+ <div class="row">
+      <div class="large-12 columns">
+       <h2>Renters</h2>
+      </div>
+    </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <label>Location
+        <input type="text" placeholder="Location" name="renterLocationName" id="renterLocationName" onKeyUp="renterGetCities_onkeyUp();" required/>
+      </label>
+    </div>
+  </div>
+
+  
+  <div class="row">
+    <button class="radius button" onClick="renterGetRentValues()">Submit</button>
+    <div id="renterRentalRatesDiv"></div>
+  </div>
+ 
+
+<!--Renter form ends-->
+
+</div>
+
+    </section>
+
+  <a class="exit-off-canvas"></a>
+
+  </div>
+</div>
+
+<!--End off canvas navigation-->
+
+      <!-- Footer -->
+ 
+  <footer class="row">
+  <div class="large-12 columns"><hr />
+      <div class="row">
+ 
+        <div class="large-6 columns">
+            <p>© Copyright Vecindario 2014.</p>
+        </div>
+ 
+        <div class="large-6 columns">
+<!--            <ul class="inline-list right">
+              <li><a href="#">Link 1</a></li>
+              <li><a href="#">Link 2</a></li>
+              <li><a href="#">Link 3</a></li>
+              <li><a href="#">Link 4</a></li>
+            </ul>
+-->        </div>
+ 
+      </div>
+  </div>
+  </footer>
+
+
+<!-- At the bottom of your page but inside of the body tag -->
+<ol class="joyride-list" data-joyride>
+  <li data-id="firstStop" data-text="Next" data-options="tip_location: bottom">
+    <p>Hello and welcome to Vecindario, the most advanced app for real estate investors.</p>
+  </li>
+  <li data-id="secondStop" data-text="Next" data-options="tip_location: top">
+    <h4>#1 Search</h4>
+    <p>You can search using this menu...</p>
+  </li>
+  <li data-id="thirdStop" data-text="Next" data-options="tip_location: bottom">
+    <h4>#2 Search</h4>
+    <p>... or this menu</p>
+
+  </li>
+<li data-button="End">
+    <h4>Enjoy!</h4>
+    <br/>
+  </li>
+</ol>
+    <script>
+        $(document).foundation();
+<!-- 		$(document).foundation('joyride', 'start');
+-->    
+	</script>
+  </body>
+</html>

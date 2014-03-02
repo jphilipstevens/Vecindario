@@ -1,0 +1,9 @@
+<project name="Common Utilities - Libraries">
+    
+    <path id="all-jars">
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+    
+</project>

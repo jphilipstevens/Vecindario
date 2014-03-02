@@ -1,0 +1,54 @@
+<project name="Common Utilities" default="jar" basedir="./../">
+	
+	<!-- ************************************************
+	     ** PROPERTIES
+	     ************************************************ -->
+	<property file="${basedir}/build/project.properties" />
+	
+	<!-- ************************************************
+	     ** IMPORTING
+	     ************************************************ -->
+	<import file="${basedir}/build/libraries.xml"/>
+	
+	<!-- ************************************************
+	     ** TARGETS - VISIBLE
+	     ************************************************ -->
+	<!-- Describes the available targets. -->
+	<target name="usage" description="Describes the available targets.">
+		<echo message="Below is the usage of the ${project.name}" />
+		<echo message="" />
+		<echo message="" />
+		<echo message="Targets:" />
+		<echo message="*******" />
+		<echo message="jar             --&gt; (default) Creates the JAR file (after compiling the source code)." />
+		<echo message="" />
+	</target>
+	
+	<!-- Compile the source code and then build the jar file. -->
+	<target name="jar" depends="-build" description="Compile the source code and then build the jar file.">
+		<delete file="${jar.output.dir}/${jar.filename}" failonerror="false" />
+		<jar destfile="${jar.output.dir}/${jar.filename}">
+			<fileset dir="${compile.dir}">
+				<include name="**/*.class" />
+			</fileset>
+			<fileset dir="${src.dir}">
+				<include name="**/*.java" />
+			</fileset>
+		</jar>
+	</target>
+	
+	<!-- ************************************************
+	     ** TARGETS - HIDDEN
+	     ************************************************ -->
+	<!-- Compile the source code. -->
+	<target name="-build" description="Compile the source code.">
+		<delete dir="${compile.dir}" failonerror="false" />
+		<mkdir dir="${compile.dir}" />
+		<javac destdir="${compile.dir}">
+			<src path="${src.dir}" />
+			<classpath refid="all-jars" />
+			<compilerarg value="-XDignore.symbol.file=true" />
+		</javac>
+	</target>
+	
+</project>
