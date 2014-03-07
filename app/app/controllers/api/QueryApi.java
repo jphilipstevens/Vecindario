@@ -90,7 +90,7 @@ public class QueryApi extends Controller
 	}
 	
 	@BodyParser.Of(BodyParser.Json.class)
-	public static Result getInvestorResult()
+	public static Result getInvestorResult(final int scgcode)
 	{
 		// fetch the City's from the province
 				Province pr = Province.getProvinceById(scgcode);
