@@ -89,12 +89,6 @@ public class QueryApi extends Controller
 	}
 	
 	@BodyParser.Of(BodyParser.Json.class)
-	public static Result queryResult()
-	{
-		return badRequest("{ \"result\" : \"failure\" ,\"message:\":\"This method is not implemented\"}");
-	}
-	
-	@BodyParser.Of(BodyParser.Json.class)
 	public static Result getInvestorResult()
 	{
 		return badRequest("{ \"result\" : \"failure\" ,\"message:\":\"This method is not implemented\"}");
@@ -237,7 +231,7 @@ public class QueryApi extends Controller
 	private static ObjectNode buildFailedResponseObject(String message)
 	{
 		ObjectNode node = Json.newObject();
-		node.put("result", "success");
+		node.put("result", ResponseStates.FAILURE.statusCode);
 		node.put("message", message);
 		return node;
 	}
