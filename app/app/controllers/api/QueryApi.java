@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import models.CSDIndex;
+import models.CityVacancy;
 import models.NewHousingPriceIndex;
 import models.Province;
 import models.RentalRate;
@@ -91,7 +92,53 @@ public class QueryApi extends Controller
 	@BodyParser.Of(BodyParser.Json.class)
 	public static Result getInvestorResult()
 	{
-		return badRequest("{ \"result\" : \"failure\" ,\"message:\":\"This method is not implemented\"}");
+		// fetch the City's from the province
+				Province pr = Province.getProvinceById(scgcode);
+				
+				// fetch the vacancy, rental rates and house pricing index for each city
+				List<RentalRate> rentalRates = RentalRate.getRentalRateOnLocation(pr,MAX_ROWS);
+				
+				List<ObjectNode> jsSequence = new ArrayList<ObjectNode>();
+				ObjectNode baseNode = null;
+				
+				if (rentalRates != null && !rentalRates.isEmpty())
+				{
+					baseNode = buildSuccessResponseObject("Results for Invester Search");
+					baseNode.put("count", rentalRates.size());
+					
+					for (RentalRate rate : rentalRates) 
+					{
+						ObjectNode csdNode = Json.newObject();
+						csdNode.put("year",rate.referenceYear);
+						csdNode.put("rentalRate",rate.rentalRate);				
+						
+						CityVacancy vacancy = CityVacancy.getVacancyRateOnLocationAndYear(rate.city,rate.referenceYear);
+						float vacancyRate =  vacancy != null ? vacancy.vacancyRate : 0;
+						csdNode.put("vacancyRate",vacancyRate);				
+						
+						csdNode.put("city", rate.city.cityName);
+						csdNode.put("province",rate.province.abbreviation);
+						
+						List<NewHousingPriceIndex> houseIndexes = NewHousingPriceIndex.
+																  gethousePriceIndexOnyear(rate.referenceYear,
+																  rate.city.cityId);
+						
+						csdNode.put("avgPriceIndex2007",  NewHousingPriceIndex.calculateYearlyAvgIndex(houseIndexes));
+						
+						csdNode.put("unitType", rate.unitType.abbreviation);
+						csdNode.put("buildingType", rate.buildingType.abbreviation);
+						
+						jsSequence.add(csdNode);				
+					}
+					
+					baseNode.put("rows", Json.toJson(jsSequence));
+				}
+				else
+				{
+					baseNode = buildFailedResponseObject("No invester information is available");
+				}	
+						
+				return ok(baseNode);
 	}
 	
 	@BodyParser.Of(BodyParser.Json.class)

@@ -9,7 +9,7 @@ GET   /home                  controllers.Application.home()
 
 #API SEARCH
 GET   /api/places            controllers.api.QueryApi.getLocationFromPlaceName(name : String)
-GET   /api/investor/result   controllers.api.QueryApi.getInvestorResult()
+GET   /api/investor/result   controllers.api.QueryApi.getInvestorResult(scgcode: Int ?= -1)
 GET   /api/renter/result     controllers.api.QueryApi.getRenterResult(scgCode5 : Int ?= -1, scgCode7 : Int ?= -1)
 GET   /api/buyer/result      controllers.api.QueryApi.getIndexedHosuePrice2007(price : Double, scgCode5 : Int ?= -1, scgCode7 : Int ?= -1, yearOfPurchase : Int)
 
