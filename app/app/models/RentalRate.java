@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import play.Logger;
 import play.db.ebean.Model;
 
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.FetchConfig;
 import com.avaje.ebean.Query;
 
@@ -131,6 +132,22 @@ public class RentalRate extends Model
 			}
 		}
 		return null;
+	}
+
+	public static List<RentalRate> getRentalRateOnLocation(Province province, int maxRows) {
+		 Query<RentalRate> query = Ebean.createQuery(RentalRate.class);
+		 query.where().eq("province", province); 
+		
+		 List<RentalRate> rentalRates = query.setMaxRows(maxRows).findList();
+		
+		return rentalRates;
+	}
+	
+	public static List<RentalRate> getCityIdFilteredList(List<RentalRate> rates)
+	{
+		 List<RentalRate> filteredList = Ebean.filter(RentalRate.class)
+				 						.sort("city.cityName").filter(rates);
+		 return filteredList;
 	}
 	
 }

@@ -18,8 +18,12 @@ import javax.persistence.Table;
 import play.Logger;
 import play.db.ebean.Model;
 
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.Expr;
 import com.avaje.ebean.FetchConfig;
 import com.avaje.ebean.Query;
+import com.avaje.ebean.RawSql;
+import com.avaje.ebean.RawSqlBuilder;
 
 import controllers.api.form.PriceIndexForm;
 
@@ -93,9 +97,9 @@ public class NewHousingPriceIndex extends Model
 
 			Calendar cal = Calendar.getInstance();
 			cal.set(request.getYearOfPurchase(), 0, 1);
-			
+
 			long startTime = cal.getTime().getTime();
-			
+
 			cal.set(request.getYearOfPurchase(), 11, 31);
 			long endTime = cal.getTime().getTime();
 			query.where().in("referenceDate", new Date(startTime),
@@ -134,5 +138,40 @@ public class NewHousingPriceIndex extends Model
 		}
 
 		return (result / indexes.size());
+	}
+
+	/**
+	 * Gets the db indexes for the specified year
+	 * 
+	 * @param year
+	 *            year
+	 * @param scgCode
+	 *            city id
+	 * @return list of indexes if found, empty list otherwise
+	 */
+	public static List<NewHousingPriceIndex> gethousePriceIndexOnyear(int year,
+			int scgCode)
+	{
+		try
+		{
+			Query<NewHousingPriceIndex> query = find.query().fetch("city", "*",
+					new FetchConfig().query());
+			City.addScgCodeToQuery(query.where(), scgCode, scgCode, "city");
+			Calendar cal = Calendar.getInstance();
+			cal.set(year, 1, 1);
+			long startTime = cal.getTime().getTime();
+			cal.set(year, 12, 31);
+			long endTime = cal.getTime().getTime();
+			query.where().in("referenceDate", new Date(startTime),
+					new Date(endTime));
+			List<NewHousingPriceIndex> result = query.findList();
+			return result;
+
+		} catch (Exception e)
+		{
+			Logger.error("", e);
+		}
+
+		return new ArrayList<NewHousingPriceIndex>();
 	}
 }

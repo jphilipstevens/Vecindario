@@ -10,6 +10,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.Query;
+
 import play.db.ebean.Model;
 
 @Entity
@@ -57,5 +60,17 @@ public class CityVacancy extends Model
 	
 	public static Finder<Integer, CityVacancy> find = new Finder<Integer, CityVacancy>(
 			Integer.class, CityVacancy.class);
+
+	public static CityVacancy getVacancyRateOnLocationAndYear(City city,int year)
+	{
+		 Query<CityVacancy> query = Ebean.createQuery(CityVacancy.class);
+		 query.where().eq("city",city);
+		 query.where().eq("province", city.province); 
+		 query.where().eq("referenceYear", year); 
+		
+		 CityVacancy vacacyRateList = query.findUnique();
+		
+		return vacacyRateList;
+	}
 	
 }
