@@ -15,4 +15,6 @@ libraryDependencies ++= Seq(
   "postgresql" % "postgresql" % "9.1-901.jdbc4"
 )     
 
+compile in Test <<= PostCompile(Test)
+
 play.Project.playJavaSettings

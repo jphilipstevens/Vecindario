@@ -50,67 +50,83 @@ import com.theEd209s.utils.StringUtils;
  */
 public class Global extends GlobalSettings
 {
-	
+
 	@Override
 	public void onStart(Application app)
 	{
+
 		Global.attachCommonUtilsLogger();
-		
-		/* TRUNCATION */
-		if (play.Play.application().configuration().getBoolean("truncateAllStaticTables", false))
+		if (!app.isTest())
 		{
-			InitData.truncateAllStaticTables();
-		}
-		if (play.Play.application().configuration().getBoolean("truncateAllDynamicTables", false))
-		{
-			InitData.truncateAllDynamicTables();;
-		}
-		
-		/* STATIC LOADERS */
-		if (play.Play.application().configuration().getBoolean("populateBuildingType", false))
-		{
-			InitData.checkAndPopulateBuildingType();
-		}
-		if (play.Play.application().configuration().getBoolean("populateUnitType", false))
-		{
-			InitData.checkAndPopulateUnitType();
-		}
-		if (play.Play.application().configuration().getBoolean("populateCSDType", false))
-		{
-			InitData.checkAndPopulateCSDType();
-		}
-		if (play.Play.application().configuration().getBoolean("populateCSDIndex", false))
-		{
-			InitData.checkAndPopulateCSDIndex();
-		}
-		if (play.Play.application().configuration().getBoolean("populateProvinces", false))
-		{
-			InitData.checkAndPopulateProvinces();
-		}
-		if (play.Play.application().configuration().getBoolean("populateCities", false))
-		{
-			InitData.checkAndPopulateCities();
-		}
-		
-		/* DYNAMIC LOADING */
-		if (play.Play.application().configuration().getBoolean("populateMortgageRates", false))
-		{
-			InitData.checkAndPopulateMortgageRates();
-		}
-		if (play.Play.application().configuration().getBoolean("populateRentalRates", false))
-		{
-			InitData.checkAndPopulateRentalRates();
-		}
-		if (play.Play.application().configuration().getBoolean("populateNewHousePriceIndexes", false))
-		{
-			InitData.checkAndPopulateNewHousePriceIndexes();
-		}
-		if (play.Play.application().configuration().getBoolean("populateVacancyRates", false))
-		{
-			InitData.checkAndPopulateVacancyRates();
+			/* TRUNCATION */
+			if (play.Play.application().configuration()
+					.getBoolean("truncateAllStaticTables", false))
+			{
+				InitData.truncateAllStaticTables();
+			}
+			if (play.Play.application().configuration()
+					.getBoolean("truncateAllDynamicTables", false))
+			{
+				InitData.truncateAllDynamicTables();
+				;
+			}
+
+			/* STATIC LOADERS */
+			if (play.Play.application().configuration()
+					.getBoolean("populateBuildingType", false))
+			{
+				InitData.checkAndPopulateBuildingType();
+			}
+			if (play.Play.application().configuration()
+					.getBoolean("populateUnitType", false))
+			{
+				InitData.checkAndPopulateUnitType();
+			}
+			if (play.Play.application().configuration()
+					.getBoolean("populateCSDType", false))
+			{
+				InitData.checkAndPopulateCSDType();
+			}
+			if (play.Play.application().configuration()
+					.getBoolean("populateCSDIndex", false))
+			{
+				InitData.checkAndPopulateCSDIndex();
+			}
+			if (play.Play.application().configuration()
+					.getBoolean("populateProvinces", false))
+			{
+				InitData.checkAndPopulateProvinces();
+			}
+			if (play.Play.application().configuration()
+					.getBoolean("populateCities", false))
+			{
+				InitData.checkAndPopulateCities();
+			}
+
+			/* DYNAMIC LOADING */
+			if (play.Play.application().configuration()
+					.getBoolean("populateMortgageRates", false))
+			{
+				InitData.checkAndPopulateMortgageRates();
+			}
+			if (play.Play.application().configuration()
+					.getBoolean("populateRentalRates", false))
+			{
+				InitData.checkAndPopulateRentalRates();
+			}
+			if (play.Play.application().configuration()
+					.getBoolean("populateNewHousePriceIndexes", false))
+			{
+				InitData.checkAndPopulateNewHousePriceIndexes();
+			}
+			if (play.Play.application().configuration()
+					.getBoolean("populateVacancyRates", false))
+			{
+				InitData.checkAndPopulateVacancyRates();
+			}
 		}
 	}
-	
+
 	/* PRIVATE METHODS */
 	/**
 	 * This method will attach the Common Utilities
@@ -126,66 +142,62 @@ public class Global extends GlobalSettings
 				if ((record != null) && (!Level.OFF.equals(record.getLevel())))
 				{
 					final Throwable logThrowable = record.getThrown();
-					if (Level.CONFIG.equals(record.getLevel()) || Level.FINE.equals(record.getLevel()) || Level.FINER.equals(record.getLevel()) || Level.FINEST.equals(record.getLevel()))
+					if (Level.CONFIG.equals(record.getLevel())
+							|| Level.FINE.equals(record.getLevel())
+							|| Level.FINER.equals(record.getLevel())
+							|| Level.FINEST.equals(record.getLevel()))
 					{
 						if (logThrowable != null)
 						{
 							Logger.debug(record.getMessage(), logThrowable);
-						}
-						else
+						} else
 						{
 							Logger.debug(record.getMessage());
 						}
-					}
-					else if (Level.INFO.equals(record.getLevel()))
+					} else if (Level.INFO.equals(record.getLevel()))
 					{
 						if (logThrowable != null)
 						{
 							Logger.info(record.getMessage(), logThrowable);
-						}
-						else
+						} else
 						{
 							Logger.info(record.getMessage());
 						}
-					}
-					else if (Level.WARNING.equals(record.getLevel()))
+					} else if (Level.WARNING.equals(record.getLevel()))
 					{
 						if (logThrowable != null)
 						{
 							Logger.warn(record.getMessage(), logThrowable);
-						}
-						else
+						} else
 						{
 							Logger.warn(record.getMessage());
 						}
-					}
-					else if (Level.SEVERE.equals(record.getLevel()))
+					} else if (Level.SEVERE.equals(record.getLevel()))
 					{
 						if (logThrowable != null)
 						{
 							Logger.error(record.getMessage(), logThrowable);
-						}
-						else
+						} else
 						{
 							Logger.error(record.getMessage());
 						}
 					}
 				}
 			}
-			
+
 			@Override
 			public void flush()
 			{
-				
+
 			}
-			
+
 			@Override
 			public void close() throws SecurityException
 			{
-				
+
 			}
 		});
-		
+
 		com.theEd209s.logging.Logger.setLogFormatter(new Formatter()
 		{
 			@Override
@@ -194,25 +206,39 @@ public class Global extends GlobalSettings
 				if (record != null)
 				{
 					final StringBuilder loggerMessage = new StringBuilder();
-					loggerMessage.append(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(record.getMillis())));
+					loggerMessage.append(new SimpleDateFormat(
+							"yyyy-MM-dd hh:mm:ss").format(new Date(record
+							.getMillis())));
 					// If the name of the logging class is set, include it.
-					if ((record.getSourceClassName() != null) && (record.getSourceClassName().length() > 0))
+					if ((record.getSourceClassName() != null)
+							&& (record.getSourceClassName().length() > 0))
 					{
 						// If the name of the logging method is set, include it.
-						if ((record.getSourceMethodName() != null) && (record.getSourceMethodName().length() > 0))
+						if ((record.getSourceMethodName() != null)
+								&& (record.getSourceMethodName().length() > 0))
 						{
-							loggerMessage.append(" (").append(record.getSourceClassName()).append(".").append(record.getSourceMethodName()).append(") ");
+							loggerMessage.append(" (")
+									.append(record.getSourceClassName())
+									.append(".")
+									.append(record.getSourceMethodName())
+									.append(") ");
 						}
-						// If the name of the logging method is not set, only include the class name.
+						// If the name of the logging method is not set, only
+						// include the class name.
 						else
 						{
-							loggerMessage.append(" (").append(record.getSourceClassName()).append(") ");
+							loggerMessage.append(" (")
+									.append(record.getSourceClassName())
+									.append(") ");
 						}
 					}
 					// If the name of the logging method is set, include it.
-					else if ((record.getSourceMethodName() != null) && (record.getSourceMethodName().length() > 0))
+					else if ((record.getSourceMethodName() != null)
+							&& (record.getSourceMethodName().length() > 0))
 					{
-						loggerMessage.append(" (").append(record.getSourceMethodName()).append(") ");
+						loggerMessage.append(" (")
+								.append(record.getSourceMethodName())
+								.append(") ");
 					}
 					// Include the actual message being logged.
 					loggerMessage.append(record.getMessage());
@@ -222,14 +248,14 @@ public class Global extends GlobalSettings
 			}
 		});
 	}
-	
+
 	/* PRIVATE CLASSES */
 	/**
 	 * This class contains all methods for initializing data.
 	 * */
 	private static class InitData
 	{
-		
+
 		/* STATIC LOADING */
 		public static void truncateAllStaticTables()
 		{
@@ -245,14 +271,15 @@ public class Global extends GlobalSettings
 			long endTime = (new Date()).getTime();
 			try
 			{
-				Logger.info("Truncating all static tables completed: " + StringUtils.humanReadableElapsedTime(endTime - startTime));
-			}
-			catch (Exception e)
+				Logger.info("Truncating all static tables completed: "
+						+ StringUtils.humanReadableElapsedTime(endTime
+								- startTime));
+			} catch (Exception e)
 			{
-				
+
 			}
 		}
-		
+
 		public static void checkAndPopulateBuildingType()
 		{
 			Logger.info("Truncating building types ....");
@@ -261,11 +288,12 @@ public class Global extends GlobalSettings
 			long endTime = (new Date()).getTime();
 			try
 			{
-				Logger.info("Truncating building types completed: " + StringUtils.humanReadableElapsedTime(endTime - startTime));
-			}
-			catch (Exception e)
+				Logger.info("Truncating building types completed: "
+						+ StringUtils.humanReadableElapsedTime(endTime
+								- startTime));
+			} catch (Exception e)
 			{
-				
+
 			}
 			Logger.info("Importing building types ....");
 			final DataLoader loader = new BuildingTypesLoader();
@@ -274,14 +302,15 @@ public class Global extends GlobalSettings
 			endTime = (new Date()).getTime();
 			try
 			{
-				Logger.info("Imported building types completed: " + StringUtils.humanReadableElapsedTime(endTime - startTime));
-			}
-			catch (Exception e)
+				Logger.info("Imported building types completed: "
+						+ StringUtils.humanReadableElapsedTime(endTime
+								- startTime));
+			} catch (Exception e)
 			{
-				
+
 			}
 		}
-		
+
 		public static void checkAndPopulateUnitType()
 		{
 			Logger.info("Truncating unit types ....");
@@ -290,11 +319,12 @@ public class Global extends GlobalSettings
 			long endTime = (new Date()).getTime();
 			try
 			{
-				Logger.info("Truncating unit types completed: " + StringUtils.humanReadableElapsedTime(endTime - startTime));
-			}
-			catch (Exception e)
+				Logger.info("Truncating unit types completed: "
+						+ StringUtils.humanReadableElapsedTime(endTime
+								- startTime));
+			} catch (Exception e)
 			{
-				
+
 			}
 			Logger.info("Importing unit types ....");
 			final DataLoader loader = new UnitTypesLoader();
@@ -303,14 +333,15 @@ public class Global extends GlobalSettings
 			endTime = (new Date()).getTime();
 			try
 			{
-				Logger.info("Imported unit types completed: " + StringUtils.humanReadableElapsedTime(endTime - startTime));
-			}
-			catch (Exception e)
+				Logger.info("Imported unit types completed: "
+						+ StringUtils.humanReadableElapsedTime(endTime
+								- startTime));
+			} catch (Exception e)
 			{
-				
+
 			}
 		}
-		
+
 		public static void checkAndPopulateCSDType()
 		{
 			Logger.info("Truncating CSD types ....");
@@ -319,11 +350,12 @@ public class Global extends GlobalSettings
 			long endTime = (new Date()).getTime();
 			try
 			{
-				Logger.info("Truncating CSD types completed: " + StringUtils.humanReadableElapsedTime(endTime - startTime));
-			}
-			catch (Exception e)
+				Logger.info("Truncating CSD types completed: "
+						+ StringUtils.humanReadableElapsedTime(endTime
+								- startTime));
+			} catch (Exception e)
 			{
-				
+
 			}
 			Logger.info("Importing CSD types ....");
 			final DataLoader loader = new CsdTypesLoader();
@@ -332,14 +364,15 @@ public class Global extends GlobalSettings
 			endTime = (new Date()).getTime();
 			try
 			{
-				Logger.info("Imported CSD types completed: " + StringUtils.humanReadableElapsedTime(endTime - startTime));
-			}
-			catch (Exception e)
+				Logger.info("Imported CSD types completed: "
+						+ StringUtils.humanReadableElapsedTime(endTime
+								- startTime));
+			} catch (Exception e)
 			{
-				
+
 			}
 		}
-		
+
 		public static void checkAndPopulateCSDIndex()
 		{
 			Logger.info("Truncating CSD indexes ....");
@@ -348,11 +381,12 @@ public class Global extends GlobalSettings
 			long endTime = (new Date()).getTime();
 			try
 			{
-				Logger.info("Truncating CSD indexes completed: " + StringUtils.humanReadableElapsedTime(endTime - startTime));
-			}
-			catch (Exception e)
+				Logger.info("Truncating CSD indexes completed: "
+						+ StringUtils.humanReadableElapsedTime(endTime
+								- startTime));
+			} catch (Exception e)
 			{
-				
+
 			}
 			Logger.info("Importing CSD indexes ....");
 			final DataLoader loader = new CsdIndexesLoader();
@@ -361,14 +395,15 @@ public class Global extends GlobalSettings
 			endTime = (new Date()).getTime();
 			try
 			{
-				Logger.info("Imported CSD indexes completed: " + StringUtils.humanReadableElapsedTime(endTime - startTime));
-			}
-			catch (Exception e)
+				Logger.info("Imported CSD indexes completed: "
+						+ StringUtils.humanReadableElapsedTime(endTime
+								- startTime));
+			} catch (Exception e)
 			{
-				
+
 			}
 		}
-		
+
 		public static void checkAndPopulateProvinces()
 		{
 			Logger.info("Truncating Provinces ....");
@@ -377,11 +412,12 @@ public class Global extends GlobalSettings
 			long endTime = (new Date()).getTime();
 			try
 			{
-				Logger.info("Truncating Provinces completed: " + StringUtils.humanReadableElapsedTime(endTime - startTime));
-			}
-			catch (Exception e)
+				Logger.info("Truncating Provinces completed: "
+						+ StringUtils.humanReadableElapsedTime(endTime
+								- startTime));
+			} catch (Exception e)
 			{
-				
+
 			}
 			Logger.info("Importing Provinces ....");
 			final ProvinceLoader loader = new ProvinceLoader();
@@ -390,11 +426,12 @@ public class Global extends GlobalSettings
 			endTime = (new Date()).getTime();
 			try
 			{
-				Logger.info("Imported Provinces completed: " + StringUtils.humanReadableElapsedTime(endTime - startTime));
-			}
-			catch (Exception e)
+				Logger.info("Imported Provinces completed: "
+						+ StringUtils.humanReadableElapsedTime(endTime
+								- startTime));
+			} catch (Exception e)
 			{
-				
+
 			}
 		}
 
@@ -406,31 +443,32 @@ public class Global extends GlobalSettings
 			long endTime = (new Date()).getTime();
 			try
 			{
-				Logger.info("Truncating Cities completed: " + StringUtils.humanReadableElapsedTime(endTime - startTime));
-			}
-			catch (Exception e)
+				Logger.info("Truncating Cities completed: "
+						+ StringUtils.humanReadableElapsedTime(endTime
+								- startTime));
+			} catch (Exception e)
 			{
-				
+
 			}
-			
+
 			Logger.info("Importing cities table ....");
-			
+
 			startTime = (new Date()).getTime();
 			CitiesLoader loader = new CitiesLoader();
 			loader.populateCities();
-			
+
 			endTime = (new Date()).getTime();
 			try
 			{
-				Logger.info("Imported new cities completed: " + StringUtils.humanReadableElapsedTime(endTime - startTime));
-			}
-			catch (Exception e)
+				Logger.info("Imported new cities completed: "
+						+ StringUtils.humanReadableElapsedTime(endTime
+								- startTime));
+			} catch (Exception e)
 			{
-				
+
 			}
 		}
-				
-		
+
 		/* DYNAMIC LOADING */
 		public static void truncateAllDynamicTables()
 		{
@@ -444,14 +482,15 @@ public class Global extends GlobalSettings
 			long endTime = (new Date()).getTime();
 			try
 			{
-				Logger.info("Truncating all dynamic tables completed: " + StringUtils.humanReadableElapsedTime(endTime - startTime));
-			}
-			catch (Exception e)
+				Logger.info("Truncating all dynamic tables completed: "
+						+ StringUtils.humanReadableElapsedTime(endTime
+								- startTime));
+			} catch (Exception e)
 			{
-				
+
 			}
 		}
-		
+
 		public static void checkAndPopulateRentalRates()
 		{
 			Logger.info("Importing rental rates ....");
@@ -461,14 +500,15 @@ public class Global extends GlobalSettings
 			long endTime = (new Date()).getTime();
 			try
 			{
-				Logger.info("Imported rental rates completed: " + StringUtils.humanReadableElapsedTime(endTime - startTime));
-			}
-			catch (Exception e)
+				Logger.info("Imported rental rates completed: "
+						+ StringUtils.humanReadableElapsedTime(endTime
+								- startTime));
+			} catch (Exception e)
 			{
-				
+
 			}
 		}
-		
+
 		public static void checkAndPopulateMortgageRates()
 		{
 			Logger.info("Importing mortgage rates ....");
@@ -478,14 +518,15 @@ public class Global extends GlobalSettings
 			long endTime = (new Date()).getTime();
 			try
 			{
-				Logger.info("Imported mortgage rates completed: " + StringUtils.humanReadableElapsedTime(endTime - startTime));
-			}
-			catch (Exception e)
+				Logger.info("Imported mortgage rates completed: "
+						+ StringUtils.humanReadableElapsedTime(endTime
+								- startTime));
+			} catch (Exception e)
 			{
-				
+
 			}
 		}
-		
+
 		public static void checkAndPopulateNewHousePriceIndexes()
 		{
 			Logger.info("Importing new house price indexes ....");
@@ -495,51 +536,57 @@ public class Global extends GlobalSettings
 			long endTime = (new Date()).getTime();
 			try
 			{
-				Logger.info("Imported new house price indexes completed: " + StringUtils.humanReadableElapsedTime(endTime - startTime));
-			}
-			catch (Exception e)
+				Logger.info("Imported new house price indexes completed: "
+						+ StringUtils.humanReadableElapsedTime(endTime
+								- startTime));
+			} catch (Exception e)
 			{
-				
+
 			}
 		}
-		
+
 		public static void checkAndPopulateVacancyRates()
 		{
 			Logger.info("Importing new vacancy rates 1 ....");
-			DataLoader loader = new VacancyRateLoader(VacancyData1.CKAN_URL, VacancyData1.CKAN_DATASET_ID, VacancyData1.CKAN_RESOURCE_ID);
+			DataLoader loader = new VacancyRateLoader(VacancyData1.CKAN_URL,
+					VacancyData1.CKAN_DATASET_ID, VacancyData1.CKAN_RESOURCE_ID);
 			long startTime = (new Date()).getTime();
 			loader.parseFile();
 			long endTime = (new Date()).getTime();
 			try
 			{
-				Logger.info("Imported new vacancy rates 1 completed: " + StringUtils.humanReadableElapsedTime(endTime - startTime));
-			}
-			catch (Exception e)
+				Logger.info("Imported new vacancy rates 1 completed: "
+						+ StringUtils.humanReadableElapsedTime(endTime
+								- startTime));
+			} catch (Exception e)
 			{
-				
+
 			}
 			Logger.info("Importing new vacancy rates 2 ....");
-			loader = new VacancyRateLoader(VacancyData2.CKAN_URL, VacancyData2.CKAN_DATASET_ID, VacancyData2.CKAN_RESOURCE_ID);
+			loader = new VacancyRateLoader(VacancyData2.CKAN_URL,
+					VacancyData2.CKAN_DATASET_ID, VacancyData2.CKAN_RESOURCE_ID);
 			startTime = (new Date()).getTime();
 			loader.parseFile();
 			endTime = (new Date()).getTime();
 			try
 			{
-				Logger.info("Imported new vacancy rates 2 completed: " + StringUtils.humanReadableElapsedTime(endTime - startTime));
-			}
-			catch (Exception e)
+				Logger.info("Imported new vacancy rates 2 completed: "
+						+ StringUtils.humanReadableElapsedTime(endTime
+								- startTime));
+			} catch (Exception e)
 			{
-				
+
 			}
-		}		
-		
+		}
+
 		/* PRIVATE METHODS */
 		/* PRIVATE METHODS */
 		/**
-		 * This method will truncate the table referenced by the specified class.
+		 * This method will truncate the table referenced by the specified
+		 * class.
 		 * 
 		 * @param entityClass
-		 * The {@link Model} class to truncate.
+		 *            The {@link Model} class to truncate.
 		 * */
 		private static void truncateTable(Class<? extends Model> entityClass)
 		{
@@ -556,14 +603,14 @@ public class Global extends GlobalSettings
 						try
 						{
 							conn = tran.getConnection();
-							conn.createStatement().executeUpdate("truncate " + tableName + " cascade");
+							conn.createStatement().executeUpdate(
+									"truncate " + tableName + " cascade");
 							Ebean.commitTransaction();
-						}
-						catch (SQLException e)
+						} catch (SQLException e)
 						{
-							Logger.error("Error truncating table" + tableName, e);
-						}
-						finally
+							Logger.error("Error truncating table" + tableName,
+									e);
+						} finally
 						{
 							Ebean.endTransaction();
 							if (conn != null)
@@ -571,10 +618,10 @@ public class Global extends GlobalSettings
 								try
 								{
 									conn.close();
-								}
-								catch (SQLException e)
+								} catch (SQLException e)
 								{
-									Logger.warn("Failed to close connection.", e);
+									Logger.warn("Failed to close connection.",
+											e);
 								}
 							}
 						}
@@ -583,7 +630,7 @@ public class Global extends GlobalSettings
 				}
 			}
 		}
-		
+
 	}
-	
+
 }

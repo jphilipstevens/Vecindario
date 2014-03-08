@@ -15,21 +15,21 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import play.Logger;
+import play.db.ebean.Model;
+
 import com.avaje.ebean.FetchConfig;
 import com.avaje.ebean.Query;
 
 import controllers.api.form.PriceIndexForm;
-import play.Logger;
-import play.db.ebean.Model;
-import views.html.index;
 
 @Entity
 @Table(name = "new_house_price_indexes")
 public class NewHousingPriceIndex extends Model
 {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * The primary identifier for the entry
 	 */
@@ -37,7 +37,7 @@ public class NewHousingPriceIndex extends Model
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "new_house_price_index_id", nullable = false)
 	public int newHousePriceIndexId;
-	
+
 	/**
 	 * The city id for the new house price index.
 	 */
@@ -45,7 +45,7 @@ public class NewHousingPriceIndex extends Model
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "city_id")
 	public City city;
-	
+
 	/**
 	 * The province id for the new house price index.
 	 */
@@ -53,21 +53,22 @@ public class NewHousingPriceIndex extends Model
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "province_id")
 	public Province province;
-	
+
 	/**
 	 * The reference date for the new house price index.
 	 */
 	@Column(name = "ref_date", nullable = false)
 	public Date referenceDate;
-	
+
 	/**
 	 * The price index for the new house price index.
 	 */
 	@Column(name = "price_index", nullable = false)
 	public float priceIndex;
-	
-	public static Finder<Integer, NewHousingPriceIndex> find = new Finder<Integer, NewHousingPriceIndex>(Integer.class, NewHousingPriceIndex.class);
-	
+
+	public static Finder<Integer, NewHousingPriceIndex> find = new Finder<Integer, NewHousingPriceIndex>(
+			Integer.class, NewHousingPriceIndex.class);
+
 	/**
 	 * given the index form request get us the corresponding index
 	 * 
@@ -76,7 +77,8 @@ public class NewHousingPriceIndex extends Model
 	 * @return the first NewHousingPriceIndex, if request is null then null is
 	 *         returned
 	 */
-	public static List<NewHousingPriceIndex> getIndexForRequest(PriceIndexForm request)
+	public static List<NewHousingPriceIndex> getIndexForRequest(
+			PriceIndexForm request)
 	{
 		if (request == null)
 		{
@@ -84,42 +86,53 @@ public class NewHousingPriceIndex extends Model
 		}
 		try
 		{
-			Query<NewHousingPriceIndex> query = find.query().fetch("city", "*", new FetchConfig().query());
-			City.addScgCodeToQuery(query.where(), request.getScgCode5(), request.getScgCode5(), "city");
+			Query<NewHousingPriceIndex> query = find.query().fetch("city", "*",
+					new FetchConfig().query());
+			City.addScgCodeToQuery(query.where(), request.getScgCode5(),
+					request.getScgCode7(), "city");
+
 			Calendar cal = Calendar.getInstance();
-			cal.set(request.getYearOfPurchase(), 1, 1);
+			cal.set(request.getYearOfPurchase(), 0, 1);
+			
 			long startTime = cal.getTime().getTime();
-			cal.set(request.getYearOfPurchase(), 12, 31);
+			
+			cal.set(request.getYearOfPurchase(), 11, 31);
 			long endTime = cal.getTime().getTime();
-			query.where().in("referenceDate", new Date(startTime), new Date(endTime));
+			query.where().in("referenceDate", new Date(startTime),
+					new Date(endTime));
+
 			List<NewHousingPriceIndex> result = query.findList();
-			return result == null ? new ArrayList<NewHousingPriceIndex>() : result;
-		}
-		catch (Exception e)
+			return result == null ? new ArrayList<NewHousingPriceIndex>()
+					: result;
+		} catch (Exception e)
 		{
 			Logger.error("", e);
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Get the average yearly index for the list
-	 * @param indexes the list of indexes for a year
-	 * @return 0 if the indexes are not available or the avg index over the time period
+	 * 
+	 * @param indexes
+	 *            the list of indexes for a year
+	 * @return 0 if the indexes are not available or the avg index over the time
+	 *         period
 	 */
-	public static double calculateYearlyAvgIndex(List<NewHousingPriceIndex> indexes)
+	public static double calculateYearlyAvgIndex(
+			List<NewHousingPriceIndex> indexes)
 	{
 		if (indexes == null || indexes.size() == 0)
 		{
 			return 0;
 		}
 		double result = 0;
-		
+
 		for (NewHousingPriceIndex anIndex : indexes)
 		{
 			result += anIndex.priceIndex;
 		}
-		
-		return (result / indexes.size())/100;
+
+		return (result / indexes.size());
 	}
 }
