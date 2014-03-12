@@ -23,28 +23,27 @@ import com.theEd209s.utils.StringUtils;
 @Table(name = "unit_types")
 public class UnitType extends Model
 {
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "unit_type_id")
 	public int unitTypeId;
-
+	
 	/**
 	 * A simple abbreviation for the unit type name
 	 */
-	@Column(name = "abbreviation", nullable = false, length = 2)
+	@Column(name = "abbreviation", nullable = false, length = 2, unique = true)
 	public String abbreviation;
-
+	
 	/**
 	 * Finder class for interacting with the datasource
 	 */
-	public static Finder<Integer, UnitType> find = new Finder<Integer, UnitType>(
-			Integer.class, UnitType.class);
+	public static Finder<Integer, UnitType> find = new Finder<Integer, UnitType>(Integer.class, UnitType.class);
 	
 	/**
 	 * This method will be used to determine the
@@ -105,6 +104,16 @@ public class UnitType extends Model
 	public static List<UnitType> loadAllUnitTypes()
 	{
 		return UnitType.find.all();
+	}
+	
+	/**
+	 * Get the unique unit type by abbreviation
+	 * @param abbr the abbreviation we want to fetch
+	 * @return a unique abbr, or null if it does not exist
+	 */
+	public static UnitType getByAbbreviation(String abbr)
+	{
+		return find.where().eq("abbreviation", abbr).findUnique();
 	}
 	
 }

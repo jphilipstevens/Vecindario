@@ -43,8 +43,7 @@ public class BuildingType extends Model
 	/**
 	 * Finder class for interacting with the datasource
 	 */
-	public static Finder<Integer, BuildingType> find = new Finder<Integer, BuildingType>(
-			Integer.class, BuildingType.class);
+	public static Finder<Integer, BuildingType> find = new Finder<Integer, BuildingType>(Integer.class, BuildingType.class);
 	
 	/**
 	 * This method will be used to determine the
@@ -113,6 +112,16 @@ public class BuildingType extends Model
 	public static List<BuildingType> loadAllBuildingTypes()
 	{
 		return BuildingType.find.all();
+	}
+	
+	/**
+	 * Get the building type entry based on the abbreviation
+	 * @param abbr
+	 * @return
+	 */
+	public static BuildingType getByAbbreviation(String abbr)
+	{
+		return find.where().eq("abbreviation", abbr).findUnique();
 	}
 	
 }

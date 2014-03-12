@@ -71,6 +71,7 @@ public class BuyerModelTests extends BaseTestSuit
 		return indexes;
 	}
 
+	
 	/**
 	 * Test that the getIndexByRequest works as we expect
 	 */
