@@ -4,6 +4,7 @@ Vecindario
 Vecindario for CODE. CODE was a Hackathon for the Canadian Government - https://www.canadianopendataexperience.com/
 
 This app consists of three apps:
+
 1. Investor : Using open data show the new hosuing price index (from 2007) for a location, rental rates (vacany), average Rent for a unit, and mortgage trends
 
 2. Renter: Here the user can select a location and see the average rent for a location, and type of house
